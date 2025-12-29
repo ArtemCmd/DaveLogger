@@ -3,12 +3,23 @@ logger.__index = logger
 
 local loggers = {}
 local logs = {}
+local packs
 
 setmetatable(logger, {
     __call = function(self, name)
         return self.new(name)
     end
 })
+
+local function get_name()
+    local pack_id, _ = parse_path(debug.getinfo(3).source)
+
+    if not packs then
+        packs = pack.get_info(pack.get_installed())
+    end
+
+    return packs[pack_id].title
+end
 
 local function log(self, level, msg, ...)
     local date = os.date("%Y/%m/%d %H:%M:%S.000%z")
@@ -43,11 +54,11 @@ function logger.new(name)
 
     if not object then
         object = {
-            name = name or "lua"
+            name = name or get_name()
         }
         setmetatable(object, logger)
 
-        loggers[name] = object
+        loggers[object.name] = object
     end
 
     return object
