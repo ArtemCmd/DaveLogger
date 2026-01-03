@@ -2,9 +2,9 @@ local logger = {}
 logger.__index = logger
 
 local loggers = {}
-local logs = {}
+local launch_date = os.date("%y-%m-%d_%H-%M-%S")
 local packs
-local launchDate = os.date("%y-%m-%d_%H-%M-%S")
+local stream
 
 setmetatable(logger, {
     __call = function(self, name)
@@ -26,7 +26,10 @@ local function log(self, level, msg, ...)
     local date = os.date("%Y/%m/%d %H:%M:%S.000%z")
     local str = string.format("[%s] %s [%20s] %s", level, date, self.name, string.format(msg, ...))
 
-    table.insert(logs, str)
+    if stream then
+        stream:write(utf8.tobytes(str .. "\n"))
+    end
+
     print(str)
 end
 
@@ -47,7 +50,7 @@ function logger:error(msg, ...)
 end
 
 function logger:save()
-    file.write(pack.data_file("dave_logger", string.format("[%s].log", launchDate)), table.concat(logs, "\n"))
+    stream:flush()
 end
 
 function logger.new(name)
@@ -64,5 +67,15 @@ function logger.new(name)
 
     return object
 end
+
+events.on("dave_logger:on_world_open", function()
+    stream = file.open(pack.data_file("dave_logger", string.format("%s.log", launch_date)), "w")
+    stream:set_binary_mode(true)
+end)
+
+events.on("dave_logger:on_world_close", function()
+    stream:flush()
+    stream:close()
+end)
 
 return logger

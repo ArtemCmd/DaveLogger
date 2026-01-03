@@ -1,9 +1,9 @@
-local logger = require("dave_logger:logger")
+require("dave_logger:logger")
 
 function on_world_open()
-    logger.save()
+    events.emit("dave_logger:on_world_open")
 end
 
 function on_world_save()
-    logger.save()
+    events.emit("dave_logger:on_world_close")
 end
