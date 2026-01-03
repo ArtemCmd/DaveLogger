@@ -4,6 +4,7 @@ logger.__index = logger
 local loggers = {}
 local logs = {}
 local packs
+local launchDate = os.date("%y-%m-%d_%H-%M-%S")
 
 setmetatable(logger, {
     __call = function(self, name)
@@ -46,7 +47,7 @@ function logger:error(msg, ...)
 end
 
 function logger:save()
-    file.write(pack.data_file("dave_logger", "latest.log"), table.concat(logs, "\n"))
+    file.write(pack.data_file("dave_logger", string.format("[%s].log", launchDate)), table.concat(logs, "\n"))
 end
 
 function logger.new(name)
