@@ -12,4 +12,7 @@ logger:info("Info!")
 logger:warning("Warning%s", "!")
 logger:error("Error!")
 logger:debug("Debug!")
+
+-- Save logs
+logger:save()
 ```
