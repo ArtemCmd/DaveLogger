@@ -50,7 +50,9 @@ function logger:error(msg, ...)
 end
 
 function logger:save()
-    stream:flush()
+    if stream then
+        stream:flush()
+    end
 end
 
 function logger.new(name)
@@ -74,8 +76,10 @@ events.on("dave_logger:on_world_open", function()
 end)
 
 events.on("dave_logger:on_world_close", function()
-    stream:flush()
-    stream:close()
+    if stream then
+        stream:flush()
+        stream:close()
+    end
 end)
 
 return logger
