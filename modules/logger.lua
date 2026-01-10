@@ -24,7 +24,7 @@ end
 
 function logger:log(level, msg, ...)
     local date = os.date("%Y/%m/%d %H:%M:%S.000%z")
-    local str = string.format("[%s] %s [%20s] %s", level, date, self.name, string.format(msg, ...))
+    local str = string.format("[%s] %s [%20s] %s", level:sub(1, 1), date, self.name, string.format(msg, ...))
 
     if stream then
         stream:write(utf8.tobytes(str .. "\n"))
