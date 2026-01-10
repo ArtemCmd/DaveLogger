@@ -79,6 +79,7 @@ events.on("dave_logger:on_world_close", function()
     if stream then
         stream:flush()
         stream:close()
+        stream = nil
     end
 end)
 
