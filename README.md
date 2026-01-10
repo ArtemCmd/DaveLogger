@@ -7,6 +7,8 @@ Quick example:
 -- require("dave_logger:logger")() -- Prefix is content pack title.
 local logger = require("dave_logger:logger")("Lua")
 
+logger:log("P", "Panic%s", "!")
+
 -- logger:level(fmt, ...)
 logger:info("Info!")
 logger:warning("Warning%s", "!")
