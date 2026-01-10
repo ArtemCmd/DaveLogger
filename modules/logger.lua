@@ -22,7 +22,7 @@ local function get_name()
     return packs[pack_id].title
 end
 
-local function log(self, level, msg, ...)
+function logger:log(level, msg, ...)
     local date = os.date("%Y/%m/%d %H:%M:%S.000%z")
     local str = string.format("[%s] %s [%20s] %s", level, date, self.name, string.format(msg, ...))
 
@@ -34,19 +34,19 @@ local function log(self, level, msg, ...)
 end
 
 function logger:info(msg, ...)
-	log(self, "I", msg, ...)
+	self:log("I", msg, ...)
 end
 
 function logger:debug(msg, ...)
-	log(self, "D", msg, ...)
+	self:log("D", msg, ...)
 end
 
 function logger:warning(msg, ...)
-	log(self, "W", msg, ...)
+	self:log("W", msg, ...)
 end
 
 function logger:error(msg, ...)
-	log(self, "E", msg, ...)
+	self:log("E", msg, ...)
 end
 
 function logger:save()
